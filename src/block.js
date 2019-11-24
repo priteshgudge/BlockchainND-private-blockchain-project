@@ -70,19 +70,23 @@ class Block {
      *     or Reject with an error.
      */
     getBData() {
-        // Getting the encoded data saved in the Block
-        const blockData = this.body;
-        // Decoding the data to retrieve the JSON representation of the object
-        const decodedData = hex2ascii(blockData);
-        // Parse the data to an object to be retrieve.
-        const object = JSON.parse(decodedData);
-        // Resolve with the data if the object isn't the Genesis block
-        if (object.height === 0){
-            throw "Invalid Request"
-        }else{
-            return object;
-        }
+
+        return new Promise(function(resolve, reject) {
+            // Getting the encoded data saved in the Block
+            const blockData = this.body;
+            // Decoding the data to retrieve the JSON representation of the object
+            const decodedData = hex2ascii(blockData);
+            // Parse the data to an object to be retrieve.
+            const object = JSON.parse(decodedData);
+            // Resolve with the data if the object isn't the Genesis block
+            if (object.height === 0) {
+               reject("Unauthorized request to Genesis Block")
+            } else {
+                resolve(object);
+            }
+        });
     }
+
 
 }
 
