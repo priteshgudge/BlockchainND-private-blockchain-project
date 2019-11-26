@@ -64,7 +64,23 @@ class Blockchain {
     _addBlock(block) {
         let self = this;
         return new Promise(async (resolve, reject) => {
+            // Calculate Values
+            let currentTime = parseInt(new Date().getTime().toString().slice(0, -3));
+            updatedHeight = self.height + 1;
+            let previousBlock = self.chain.slice(-1)[0]
+            let previousBlockHash = previousBlock?previousBlock.hash:null // ** null for Genesis block
+            
+            //Set Values in Block
+            block.time = currentTime;
+            block.height = updatedHeight
+            block.previousBlockHash = previousBlockHash
+
+            block.hash = SHA256(JSON.stringify(block))
+
+            self.chain.push(block)
            
+            resolve("Success")
+            
         });
     }
 
@@ -115,6 +131,9 @@ class Blockchain {
     getBlockByHash(hash) {
         let self = this;
         return new Promise((resolve, reject) => {
+            this.chain.filter( obj => {
+                return obj.hash === hash;
+            });
            
         });
     }
@@ -160,6 +179,11 @@ class Blockchain {
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
+            self.chain.map(
+                block => {
+
+                }
+            )
             
         });
     }

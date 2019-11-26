@@ -45,13 +45,14 @@ class Block {
                 height: self.height,
                 body: self.body ,
                 time: self.time,
-                previousBlockHash: self.previousBlockHash
+                previousBlockHash: self.previousBlockHash,
+                hash: null
             };
-            const calculatedHash = SHA256(hashCalculatorBlock);
+            const calculatedHash = SHA256(JSON.stringify(hashCalculatorBlock));
             // Comparing if the hashes changed
-            if(hashCalculatorBlock !== calculatedHash) {
+            if(auxiliaryHash !== calculatedHash) {
                 // Returning the Block is not valid
-                reject("Block is not Valid")
+                reject(`Block with hash ${auxiliaryHash}  is not Valid`)
 
             } else{
                 // Returning the Block is valid
