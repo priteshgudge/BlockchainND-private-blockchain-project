@@ -179,13 +179,15 @@ class Blockchain {
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
-            self.chain.map(
+            self.chain.forEach(
                 block => {
-
-                }
-            )
+                    block.validate().then( (val) => console.log(val) ).catch(
+                        (errorStr) => {
+                            errorLog.push(errorStr)
+                        })
+                    })
             
-        });
+                });
     }
 
 }
