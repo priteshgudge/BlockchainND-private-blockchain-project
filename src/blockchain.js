@@ -48,7 +48,10 @@ class Blockchain {
             resolve(this.height);
         });
     }
-
+    // getLatest block method
+    getLatestBlock(){
+        return this.chain[this.chain.length -1];
+    }
     /**
      * _addBlock(block) will store a block in the chain
      * @param {*} block 
@@ -64,7 +67,20 @@ class Blockchain {
     _addBlock(block) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-           
+            // block height
+            block.height = this.chain.length;
+            // UTC timestamp
+            block.time = new Date().getTime().toString().slice(0,-3);
+            if (this.getChainHeight()>0) {
+                // previous block hash
+                block.previousBlockHash = this.getLatestBlock().hash;
+            }
+            // SHA256 requires a string of data
+            block.hash = SHA256(JSON.stringify(block)).toString();
+            // add block to chain
+            this.chain.push(block);
+
+
         });
     }
 
@@ -166,4 +182,4 @@ class Blockchain {
 
 }
 
-module.exports.Blockchain = Blockchain;   
+module.exports.Blockchain = Blockchain;

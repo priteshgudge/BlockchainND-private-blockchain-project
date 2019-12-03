@@ -45,9 +45,10 @@ class Block {
                 height: self.height,
                 body: self.body ,
                 time: self.time,
-                previousBlockHash: self.previousBlockHash
+                previousBlockHash: self.previousBlockHash,
+                hash: null,
             };
-            const calculatedHash = SHA256(hashCalculatorBlock);
+            const calculatedHash = SHA256(JSON.stringify(hashCalculatorBlock)).toString();
             // Comparing if the hashes changed
             if(hashCalculatorBlock !== calculatedHash) {
                 // Returning the Block is not valid
