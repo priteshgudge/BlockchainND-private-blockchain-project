@@ -107,7 +107,12 @@ class Blockchain {
      * @param {*} address 
      */
     requestMessageOwnershipVerification(address) {
+        //let self = this;
         return new Promise((resolve) => {
+            
+        let obj =   `${address}:${new Date().getTime().toString().slice(0,-3)}:starRegistry`;
+
+        resolve(obj)
             
         });
     }
@@ -132,7 +137,20 @@ class Blockchain {
     submitStar(address, message, signature, star) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-            
+            const msgTime = parseInt(message.split(':')[1]);
+            let currentTime = parseInt(new Date().getTime().toString().slice(0, -3));
+
+            if ((currentTime - msgTime) > 300){
+                reject("Invalid block: Time exceeded")
+            }
+            let verified = bitcoinMessage.verify(message,address,signature);
+            if (verified){
+                let block = new BlockClass(star);
+                self._addBlock(block);
+                resolve("Block Added")
+            }else{
+                reject("Block Invalid")
+            }
         });
     }
 
