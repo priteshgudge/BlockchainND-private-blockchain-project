@@ -75,7 +75,7 @@ class Blockchain {
             block.height = updatedHeight
             block.previousBlockHash = previousBlockHash
 
-            block.hash = SHA256(JSON.stringify(block))
+            block.hash = SHA256(JSON.stringify(block)).toString()
 
             self.chain.push(block)
            

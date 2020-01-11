@@ -41,15 +41,18 @@ class Block {
             // Save in auxiliary variable the current block hash
             const auxiliaryHash = self.hash;
             // Recalculate the hash of the Block
-            const hashCalculatorBlock = {
-                height: self.height,
-                body: self.body ,
-                time: self.time,
-                previousBlockHash: self.previousBlockHash,
-                hash: null
-            };
-            const calculatedHash = SHA256(JSON.stringify(hashCalculatorBlock));
+            // const hashCalculatorBlock = {
+            //     height: self.height,
+            //     body: self.body ,
+            //     time: self.time,
+            //     previousBlockHash: self.previousBlockHash,
+            //     hash: null
+            // };
+            self.hash = null;
+            const calculatedHash = SHA256(JSON.stringify(self)).toString();
+            self.hash = auxiliaryHash;
             // Comparing if the hashes changed
+            
             if(auxiliaryHash !== calculatedHash) {
                 // Returning the Block is not valid
                 reject(`Block with hash ${auxiliaryHash}  is not Valid`)
