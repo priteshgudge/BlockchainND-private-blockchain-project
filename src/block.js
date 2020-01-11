@@ -76,10 +76,10 @@ class Block {
      *     or Reject with an error.
      */
     getBData() {
-
+            let self = this;
         return new Promise(function(resolve, reject) {
             // Getting the encoded data saved in the Block
-            const blockData = this.body;
+            const blockData = self.body;
             // Decoding the data to retrieve the JSON representation of the object
             const decodedData = hex2ascii(blockData);
             // Parse the data to an object to be retrieve.
