@@ -51,11 +51,13 @@ class Block {
             self.hash = null;
             const calculatedHash = SHA256(JSON.stringify(self)).toString();
             self.hash = auxiliaryHash;
+
             // Comparing if the hashes changed
             
             if(auxiliaryHash !== calculatedHash) {
                 // Returning the Block is not valid
-                reject(`Block with hash ${auxiliaryHash}  is not Valid`)
+                //reject(`Block with hash ${auxiliaryHash}  is not Valid`)
+                resolve(false)
 
             } else{
                 // Returning the Block is valid

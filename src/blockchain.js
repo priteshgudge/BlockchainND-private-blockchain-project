@@ -48,7 +48,10 @@ class Blockchain {
             resolve(this.height);
         });
     }
-
+    // getLatest block method
+    getLatestBlock(){
+        return this.chain[this.chain.length -1];
+    }
     /**
      * _addBlock(block) will store a block in the chain
      * @param {*} block 
@@ -64,23 +67,34 @@ class Blockchain {
     _addBlock(block) {
         let self = this;
         return new Promise(async (resolve, reject) => {
+
+            // block height
+            block.height = self.chain.length;
+            // UTC timestamp
+            block.time = new Date().getTime().toString().slice(0,-3);
+            if (self.getChainHeight()>0) {
+                // previous block hash
+                block.previousBlockHash = this.getLatestBlock().hash;
+            }
+
             // Calculate Values
             let currentTime = parseInt(new Date().getTime().toString().slice(0, -3));
-            updatedHeight = self.height + 1;
-            let previousBlock = self.chain.slice(-1)[0]
+            const updatedHeight = self.height + 1;
+            let previousBlock = self.chain.slice(-1)[0];
             let previousBlockHash = previousBlock?previousBlock.hash:null // ** null for Genesis block
             
             //Set Values in Block
             block.time = currentTime;
-            block.height = updatedHeight
-            block.previousBlockHash = previousBlockHash
+            block.height = updatedHeight;
+            block.previousBlockHash = previousBlockHash;
 
             block.hash = SHA256(JSON.stringify(block)).toString()
 
-            self.chain.push(block)
+
+            self.chain.push(block);
            
             resolve("Success")
-            
+
         });
     }
 
@@ -192,4 +206,4 @@ class Blockchain {
 
 }
 
-module.exports.Blockchain = Blockchain;   
+module.exports.Blockchain = Blockchain;
